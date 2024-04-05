@@ -174,7 +174,7 @@ const ProductEdit = () => {
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
-                                        {categories?.map((item: any) => (
+                                        {categories?.mapo((item: any) => (
                                             <SelectItem value={item._id}>
                                                 {item.name}
                                             </SelectItem>
