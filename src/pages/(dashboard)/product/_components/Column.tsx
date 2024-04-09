@@ -122,6 +122,7 @@ export const columns: ColumnDef<IProduct>[] = [
                         <DropdownMenuSeparator />
                         <DropdownMenuItem
                             onClick={() =>
+                                window.confirm("Bạn có chắc chắn không?") &&
                                 handleRemoveProduct(row?.original?._id)
                             }
                         >

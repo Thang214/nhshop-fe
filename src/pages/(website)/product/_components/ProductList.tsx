@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import Pagination from "../../../../components/Pagination";
 
 import { useToast } from "@/components/ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useStorage } from "@/common/hooks/useStorage";
+import { useLocalStorage, useStorage } from "@/common/hooks/useStorage";
 type ProductListProps = {
     products?: IProduct[];
     pagination?: {
@@ -22,7 +22,7 @@ export const formatVnd = new Intl.NumberFormat("vi-VN", {
 
 const ProductList = ({ products, pagination }: ProductListProps) => {
     const { totalPages } = pagination || { totalPages: 3 };
-    const [user, setUser] = useStorage("user", {}, localStorage);
+    const [user] = useLocalStorage("user", {});
     // console.log(user.user._id);
 
     const { toast } = useToast();
@@ -32,19 +32,16 @@ const ProductList = ({ products, pagination }: ProductListProps) => {
             products: { productId: any; quantity: number };
         }) => {
             const response = await axios.post(
-                "http://localhost:2202/api/v1/carts/add-to-cart",
+                `http://localhost:2202/api/v1/carts/add-to-cart`,
                 data,
             );
-            console.log(response);
-
-            console.log(data);
 
             return response.data;
         },
         onSuccess: () => {
             toast({
-                title: "Thêm vào giỏ hàng thành công",
-                variant: "success",
+                title: "Thêm vào giỏ hàng thành công!",
+                variant: "success", 
             });
         },
     });
@@ -102,7 +99,7 @@ const ProductList = ({ products, pagination }: ProductListProps) => {
                                     className="btn product-action__addtocart"
                                     onClick={() =>
                                         mutate({
-                                            userId: user.user._id,
+                                            userId: user.user?._id,
                                             products: {
                                                 productId: product._id,
                                                 quantity: 1,

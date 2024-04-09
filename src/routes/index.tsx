@@ -1,6 +1,6 @@
 import LayoutAdmin from "@/pages/(dashboard)/layout";
-import ProductAdd from "@/pages/(dashboard)/product/_components/add";
-import ProductEditPage from "@/pages/(dashboard)/product/_components/edit";
+// import ProductAdd from "@/pages/(dashboard)/product/_components/add";
+// import ProductEditPage from "@/pages/(dashboard)/product/_components/edit";
 import ProductManagement from "@/pages/(dashboard)/product/page";
 import Signin from "@/pages/(website)/(auth)/Signin";
 import NotFound from "@/pages/(website)/404/page";
@@ -16,6 +16,7 @@ import ShopPage from "@/pages/(website)/product/page";
 import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Signup from "@/pages/(website)/(auth)/Signup";
+import FormProduct from "@/pages/(dashboard)/product/_components/Form";
 
 const Router = () => {
     return (
@@ -42,12 +43,10 @@ const Router = () => {
                     }
                 >
                     <Route path="products" element={<ProductManagement />} />
-                    <Route path="products/add" element={<ProductAdd />} />
-                    <Route
-                        path="products/:id/edit"
-                        element={<ProductEditPage />}
-                    />
+                    <Route path="products/add" element={<FormProduct />} />
+                    <Route path="products/:id/edit" element={<FormProduct />} />
                 </Route>
+
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>

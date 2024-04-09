@@ -1,13 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import useCart from "@/common/hooks/useCart";
-import { DeleteOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
-import { Button, Space, Table, Typography } from "antd";
+import { useLocalStorage } from "@/common/hooks/useStorage";
+import { ChangeEvent } from "react";
+import { Table, Button, InputNumber, Typography } from "antd";
+import { UpOutlined, DownOutlined, DeleteOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
 const CartPage = () => {
-    const { data, handleQuantityChange, calculateTotal, mutate } = useCart();
-
-    // Xóa biến handleQuantityChange đã được khai báo trước đó
+    const [user] = useLocalStorage("user", {});
+    const userId = user?.user?._id;
+    const {
+        data,
+        handleQuantityChange,
+        calculateTotal,
+        mutate: updateCart,
+    } = useCart();
 
     const columns = [
         {
@@ -30,59 +39,50 @@ const CartPage = () => {
             dataIndex: "quantity",
             key: "quantity",
             render: (text: any, record: any) => (
-                <Space>
+                <InputNumber
+                    min={1}
+                    value={text}
+                    onChange={(value: number | string | undefined) =>
+                        handleQuantityChange(record.productId, {
+                            target: { value: value?.toString() },
+                        } as ChangeEvent<HTMLInputElement>)
+                    }
+                />
+            ),
+        },
+        {
+            title: "Action",
+            key: "action",
+            render: (text: any, record: any) => (
+                <span>
                     <Button
                         icon={<UpOutlined />}
                         onClick={() =>
-                            mutate({
+                            updateCart({
                                 action: "INCREMENT",
                                 productId: record.productId,
                             })
                         }
                     />
-                    <input
-                        type="number"
-                        min={1}
-                        value={text}
-                        onChange={(e) =>
-                            handleQuantityChange(
-                                record.productId,
-                                e.target.value,
-                            )
-                        }
-                    />
                     <Button
                         icon={<DownOutlined />}
                         onClick={() =>
-                            mutate({
+                            updateCart({
                                 action: "DECREMENT",
                                 productId: record.productId,
                             })
                         }
                     />
-                </Space>
-            ),
-        },
-        {
-            title: "Tổng giá",
-            dataIndex: "total",
-            key: "total",
-        },
-        {
-            title: "Hành động",
-            key: "action",
-            render: (text: any, record: any) => (
-                <Button
-                    icon={<DeleteOutlined />}
-                    onClick={() =>
-                        mutate({
-                            action: "REMOVE",
-                            productId: record.productId,
-                        })
-                    }
-                >
-                    Xóa
-                </Button>
+                    <Button
+                        icon={<DeleteOutlined />}
+                        onClick={() =>
+                            updateCart({
+                                action: "REMOVE",
+                                productId: record.productId,
+                            })
+                        }
+                    />
+                </span>
             ),
         },
     ];
@@ -94,7 +94,6 @@ const CartPage = () => {
         price: product.price,
         quantity: product.quantity,
         total: product.price * product.quantity,
-        productId: product.productId,
     }));
 
     return (
