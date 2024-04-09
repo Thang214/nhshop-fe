@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
     FormControl,
@@ -13,6 +12,7 @@ import {
 import useProductMutation from "@/common/hooks/useProductMutation";
 import { uploadFileCloudinary } from "@/common/lib/utils";
 
+import { useProductQuery } from "@/common/hooks/useProductQuery";
 import { Input } from "@/components/ui/input";
 import {
     Select,
@@ -22,16 +22,15 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useProductQuery } from "@/common/hooks/useProductQuery";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import DescriptionForm from "./formField/Description";
+import DiscountForm from "./formField/Discount";
 import NameForm from "./formField/Name";
 import PriceForm from "./formField/Price";
-import DiscountForm from "./formField/Discount";
 import ProductHot from "./formField/ProductHot";
-import DescriptionForm from "./formField/Description";
 
 const FormProduct = () => {
     const navigate = useNavigate();
@@ -41,7 +40,6 @@ const FormProduct = () => {
     const [gallery, setGallery] = useState<string[]>([]);
     const [image, setImage] = useState<string>("");
     const [category, setCategory] = useState<string>("");
-
     const { data } = useProductQuery({ id });
     // Lấy danh sách danh mục
     const { data: categories } = useQuery({
@@ -182,7 +180,7 @@ const FormProduct = () => {
                                     <FormMessage />
 
                                     <div className="grid grid-cols-4 gap-4">
-                                        {data?.gallery?.map((url) => (
+                                        {data?.gallery?.map((url: string) => (
                                             <img
                                                 key={url}
                                                 src={url}

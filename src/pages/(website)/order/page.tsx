@@ -7,16 +7,19 @@ import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
+    FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
+export const formatVnd = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+});
 const OrderPage = () => {
     const form = useForm();
     const [user] = useLocalStorage("user", {});
@@ -51,7 +54,8 @@ const OrderPage = () => {
     };
     return (
         <div className="container mx-auto">
-            <h1>Order</h1>
+            <h1 className="text-3xl font-bold my-4">Trang đặt hàng</h1>
+            <hr className="my-3" />
             <div className="grid grid-cols-12 gap-8">
                 <div className="col-span-8">
                     <Form {...form}>
@@ -64,7 +68,9 @@ const OrderPage = () => {
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Name</FormLabel>
+                                        <FormLabel className="font-bold">
+                                            Name
+                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="Tên"
@@ -80,7 +86,9 @@ const OrderPage = () => {
                                 name="phone"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Số điện thoại</FormLabel>
+                                        <FormLabel className="font-bold">
+                                            Số điện thoại
+                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="tel"
@@ -97,7 +105,9 @@ const OrderPage = () => {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel className="font-bold">
+                                            Email
+                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 type="email"
@@ -116,8 +126,8 @@ const OrderPage = () => {
                 <div className="col-span-4">
                     {data?.products?.map((item: IProduct) => (
                         <div key={item._id} className="border-b py-4">
-                            <h4>{item.name}</h4>
-                            <p>Giá: {item.price}</p>
+                            <h4 className="font-bold text-xl">{item.name}</h4>
+                            <p>Giá: {formatVnd.format(item.price)}</p>
                             <p>Số lượng:{item.quantity}</p>
                         </div>
                     ))}
@@ -126,8 +136,10 @@ const OrderPage = () => {
                         {data?.products ? data?.products.length : 0}
                     </p>
                     <p>
-                        <strong className="mr-2">tổng tiền:</strong>{" "}
-                        {calculateTotal()}
+                        <strong className="mr-2 my-2 text-xl">
+                            Tổng tiền:
+                        </strong>{" "}
+                        {formatVnd.format(calculateTotal())}
                     </p>
                 </div>
             </div>

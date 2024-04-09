@@ -14,7 +14,7 @@ type useProductMutationProps = {
 const useProductMutation = ({ action, onSuccess }: useProductMutationProps) => {
     const queryClient = useQueryClient();
     const form = useForm({
-        resolver: joiResolver(ProductJoiSchema),
+        // resolver: joiResolver(ProductJoiSchema),
         defaultValues: {
             name: "",
             price: 0,
@@ -34,7 +34,7 @@ const useProductMutation = ({ action, onSuccess }: useProductMutationProps) => {
                 case "DELETE":
                     return (
                         window.confirm("Bạn có chắc chắn không?") &&
-                        (await removeProduct(product))
+                        (await removeProduct(product?._id))
                     );
                 case "UPDATE":
                     return await editProduct(product);

@@ -1,8 +1,10 @@
 import LayoutAdmin from "@/pages/(dashboard)/layout";
 // import ProductAdd from "@/pages/(dashboard)/product/_components/add";
 // import ProductEditPage from "@/pages/(dashboard)/product/_components/edit";
+import FormProduct from "@/pages/(dashboard)/product/_components/Form";
 import ProductManagement from "@/pages/(dashboard)/product/page";
 import Signin from "@/pages/(website)/(auth)/Signin";
+import Signup from "@/pages/(website)/(auth)/Signup";
 import NotFound from "@/pages/(website)/404/page";
 import AboutPage from "@/pages/(website)/about/page";
 import CartPage from "@/pages/(website)/cart/page";
@@ -15,8 +17,6 @@ import DetailProduct from "@/pages/(website)/product/detail/page";
 import ShopPage from "@/pages/(website)/product/page";
 import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
-import Signup from "@/pages/(website)/(auth)/Signup";
-import FormProduct from "@/pages/(dashboard)/product/_components/Form";
 
 const Router = () => {
     return (
